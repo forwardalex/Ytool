@@ -1,0 +1,30 @@
+# debug下配置只有在env:"ENV_NAME=dev"才会生效，即本地开发环境
+debug:
+  env: test
+  needDebug: true
+  mysql: #mysql 开发环境连接重定向地址
+    host: 127.0.0.1
+    user: root #root
+    password: 123456 #123456
+    port: 3306 #3306
+    database: dev
+  redis: #redis 开发环境连接重定向地址
+    host: 127.0.0.1
+    port: 6379
+    password:
+    type: node
+  kafka: #kafka 开发环境连接重定向地址
+    host: 127.0.0.1:9092
+    topic: [ test ]
+  mockcontext: #自定义 context 上下文
+    head: #自定义 context 中 head 信息
+      seq: 1
+      uin: 66
+      openid: id
+      userid: id
+      traceid: id5
+      client:
+        ip: 0.0.0.0
+        port: 80888
+  mockPrivateConfig: #本地开发环境，mock 私域中的配置
+
