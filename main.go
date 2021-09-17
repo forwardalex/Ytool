@@ -1,13 +1,19 @@
 package main
 
 import (
-	_ "Ytool/Debug"
+	_ "Ytool/debug"
 	"Ytool/log"
-	//logs "github.com/sirupsen/logrus"
+	"bytes"
+	"context"
+	"fmt"
 )
 
+var stderr bytes.Buffer
+
 func main() {
-	log.Infof("key is %d , another %d", 10, 10)
-	//fmt.Printf("key is %d , another %d\n",10,10)
-	//fmt.Printf("%d,%s",10,"s")
+	ctx := context.Background()
+	err := log.FindCommit(ctx, "./work-config.yml", 10, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

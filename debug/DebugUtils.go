@@ -72,7 +72,6 @@ func init() {
 	getenv := os.Getenv("ENV_NAME")
 	getenv = strings.ToUpper(getenv)
 	if strings.ToUpper(getenv) == "DEV" {
-
 		exists, err := PathExists(filePath)
 		if err != nil || !exists {
 			fmt.Println("找不到配置文件，不执行本地debug模式")
@@ -81,7 +80,6 @@ func init() {
 
 		// 加载配置文件
 		Config.GetConf()
-		fmt.Println(Config.Debug.NeedDebug)
 		os.Setenv("ENV_NAME", Config.Debug.ENV)
 		log.Info("ENV_NAME", os.Getenv("ENV_NAME"))
 		if Config.Debug.NeedDebug {
@@ -157,6 +155,5 @@ func ReadYml(path string, obj interface{}) error {
 		fmt.Println(err.Error())
 		return err
 	}
-	fmt.Println(string(yamlFile))
 	return yaml.Unmarshal(yamlFile, obj)
 }
