@@ -5,6 +5,6 @@ import (
 )
 
 func TestBlame() {
-	defer rec.RecoverFromPanic("TestBlame")
-	panic("testing blame")
+	defer rec.RecoverFromPanic("TestBlame1")
+	panic("testing blame1")
 }

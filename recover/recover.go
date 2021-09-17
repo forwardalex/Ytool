@@ -5,6 +5,7 @@ import (
 	"Ytool/log"
 	"Ytool/model"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -24,15 +25,18 @@ var (
 
 func RecoverFromPanic(funcName string) {
 	if e := recover(); e != nil {
-		//ctx:=context.Background()
+		ctx := context.Background()
 		buf := make([]byte, 64<<10)
 		buf = buf[:runtime.Stack(buf, false)]
-		log.Errorf("[%s] func_name: %v, stack: %s", funcName, e, string(buf))
+		_, fn, line, _ := runtime.Caller(2)
+		commit, err := log.FindCommit(ctx, fn, line, nil)
+		if err != nil {
+			log.Error("error ", err.Error())
+		}
 		panicError := fmt.Errorf("%v", e)
-		//commit:=log.FindCommit(ctx,)
-		_, fn, line, ok := runtime.Caller(2)
-		fmt.Println("filename", fn, "line", line, " okk?", ok)
-		ReportPanic(panicError.Error(), funcName, string(buf))
+		log.Infof("%s,%s", commit, panicError)
+		//ReportPanicCommit(panicError.Error(),funcName,string(buf),commit)
+		//ReportPanic(panicError.Error(), funcName, string(buf))
 	}
 	return
 }
@@ -73,5 +77,44 @@ func ReportPanic(errInfo, funcName, stack string) (err error) {
 		}()
 	})
 
+	return
+}
+
+func ReportPanicCommit(errInfo, funcName, stack string, commit log.BlameLine) (err error) {
+	panicReportOnce.Do(func() {
+		defer func() { recover() }()
+		go func() {
+			panicReq := &model.PanicReq{
+				Service:        env.Service(),
+				ErrorInfo:      errInfo,
+				Stack:          stack,
+				FuncName:       funcName,
+				Host:           env.HostIP(),
+				PodName:        env.PodName(),
+				LastCommitUser: commit.CommitName,
+				CommitTime:     commit.CommitDate.String(),
+			}
+			var jsonBytes []byte
+			jsonBytes, err = json.Marshal(panicReq)
+			if err != nil {
+				return
+			}
+			var req *http.Request
+			req, err = http.NewRequest("GET", url, bytes.NewBuffer(jsonBytes))
+			if err != nil {
+				return
+			}
+			req.Header.Set("Content-Type", "application/json")
+
+			client := &http.Client{Timeout: 5 * time.Second}
+			var resp *http.Response
+			resp, err = client.Do(req)
+			if err != nil {
+				return
+			}
+			defer resp.Body.Close()
+			return
+		}()
+	})
 	return
 }

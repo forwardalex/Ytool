@@ -8,7 +8,7 @@ import (
 
 func main() {
 	fmt.Println("welcome")
+
 	test.TestBlame()
 	fmt.Println("over")
-
 }

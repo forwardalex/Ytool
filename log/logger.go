@@ -164,7 +164,6 @@ func Info(msg string, value interface{}) {
 	zap.L().Info(msg, zap.Any(msg, value))
 }
 func Infof(format string, value ...interface{}) {
-	//fmt.Printf(format,value...)
 	zap.L().Info("", zap.Any("info", fmt.Sprintf(format, value...)))
 }
 func Debug(msg string, value interface{}) {
@@ -183,7 +182,7 @@ func Error(msg string, value interface{}) {
 	zap.L().Error(msg, zap.Any(msg, value))
 }
 func Errorf(format string, value ...interface{}) {
-	zap.L().Info("warn", zap.Any("error", fmt.Sprintf(format, value...)))
+	zap.L().Info("error", zap.Any("error", fmt.Sprintf(format, value...)))
 }
 func Fatal(msg string, value interface{}) {
 	zap.L().Fatal(msg, zap.Any(msg, value))
