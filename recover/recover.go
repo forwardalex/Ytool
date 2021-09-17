@@ -35,7 +35,7 @@ func RecoverFromPanic(funcName string) {
 		}
 		panicError := fmt.Errorf("%v", e)
 		log.Infof("%s,%s", commit, panicError)
-		//ReportPanicCommit(panicError.Error(),funcName,string(buf),commit)
+		//ReportPanicCommit(panicError.Error(),funcName,fn,string(buf),commit)
 		//ReportPanic(panicError.Error(), funcName, string(buf))
 	}
 	return
@@ -80,7 +80,7 @@ func ReportPanic(errInfo, funcName, stack string) (err error) {
 	return
 }
 
-func ReportPanicCommit(errInfo, funcName, stack string, commit log.BlameLine) (err error) {
+func ReportPanicCommit(errInfo, funcName, stack, fileName string, commit log.BlameLine) (err error) {
 	panicReportOnce.Do(func() {
 		defer func() { recover() }()
 		go func() {
@@ -93,6 +93,7 @@ func ReportPanicCommit(errInfo, funcName, stack string, commit log.BlameLine) (e
 				PodName:        env.PodName(),
 				LastCommitUser: commit.CommitName,
 				CommitTime:     commit.CommitDate.String(),
+				FileName:       fileName,
 			}
 			var jsonBytes []byte
 			jsonBytes, err = json.Marshal(panicReq)

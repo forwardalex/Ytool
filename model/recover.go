@@ -10,4 +10,5 @@ type PanicReq struct {
 	PodName        string `json:"pod_name"`
 	LastCommitUser string `json:"last_commit_user"`
 	CommitTime     string `json:"commit_time"`
+	FileName       string `json:"file_name"`
 }
