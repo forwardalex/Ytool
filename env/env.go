@@ -1,8 +1,10 @@
-package configs
+package env
 
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
 )
 
@@ -63,4 +65,37 @@ func Current() Env {
 		panic(fmt.Errorf("unknown env: %s", svrEnv))
 	}
 	return env
+}
+
+func Service() string {
+	return os.Getenv("service")
+}
+
+func HostIP() string {
+	//call ifconfig 查询ip
+	// local ip
+	//	conn, err := net.Dial("udp", "www.baidu.com:80")
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//		return
+	//	}
+	//	defer conn.Close()
+	//  return conn.LocalAddr().String()
+
+	// 公网ip
+	responseClient, errClient := http.Get("https://ipw.cn/api/ip/myip") // 获取外网 IP
+	if errClient != nil {
+		fmt.Printf("获取外网 IP 失败，请检查网络\n")
+		panic(errClient)
+	}
+	// 程序在使用完 response 后必须关闭 response 的主体。
+	defer responseClient.Body.Close()
+
+	body, _ := ioutil.ReadAll(responseClient.Body)
+	clientIP := fmt.Sprintf("%s", string(body))
+	return clientIP
+}
+
+func PodName() string {
+	return os.Getenv("podName")
 }
