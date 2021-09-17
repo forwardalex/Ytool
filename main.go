@@ -3,11 +3,11 @@ package main
 import (
 	_ "Ytool/Debug"
 	"Ytool/log"
-
-	"fmt"
+	//logs "github.com/sirupsen/logrus"
 )
 
 func main() {
-	fmt.Println("welcome")
-	log.Info("OK", 1)
+	log.Infof("key is %d , another %d", 10, 10)
+	//fmt.Printf("key is %d , another %d\n",10,10)
+	//fmt.Printf("%d,%s",10,"s")
 }

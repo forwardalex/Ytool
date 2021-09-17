@@ -1,6 +1,7 @@
 package log
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
@@ -162,15 +163,31 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 func Info(msg string, value interface{}) {
 	zap.L().Info(msg, zap.Any(msg, value))
 }
+func Infof(format string, value ...interface{}) {
+	//fmt.Printf(format,value...)
+	zap.L().Info("", zap.Any("info", fmt.Sprintf(format, value...)))
+}
 func Debug(msg string, value interface{}) {
 	zap.L().Debug(msg, zap.Any(msg, value))
+}
+func Debugf(format string, value ...interface{}) {
+	zap.L().Info("", zap.Any("debug", fmt.Sprintf(format, value...)))
 }
 func Warn(msg string, value interface{}) {
 	zap.L().Warn(msg, zap.Any(msg, value))
 }
+func Warnf(format string, value ...interface{}) {
+	zap.L().Info("warn", zap.Any("warn", fmt.Sprintf(format, value...)))
+}
 func Error(msg string, value interface{}) {
 	zap.L().Error(msg, zap.Any(msg, value))
 }
+func Errorf(format string, value ...interface{}) {
+	zap.L().Info("warn", zap.Any("error", fmt.Sprintf(format, value...)))
+}
 func Fatal(msg string, value interface{}) {
 	zap.L().Fatal(msg, zap.Any(msg, value))
+}
+func Fatalf(format string, value ...interface{}) {
+	zap.L().Info("warn", zap.Any("fatal", fmt.Sprintf(format, value...)))
 }
