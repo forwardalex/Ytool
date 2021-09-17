@@ -59,8 +59,7 @@ var MaxLineSize = 1024
 
 //FindCommit  查询代码提交人
 func FindCommit(ctx context.Context, fn string, line int, w io.Writer) (current BlameLine, err error) {
-	fmt.Sprintf("-L %d,%d", line, line)
-	cmd := exec.Command("git", "blame", "-e", "--root", "--line-porcelain", fn, "-L 10,10")
+	cmd := exec.Command("git", "blame", "-e", "--root", "--line-porcelain", fn, fmt.Sprintf("-L %d,%d", line, line))
 	r, err := cmd.StdoutPipe()
 	if err != nil {
 		Error("ERR ", err.Error())
@@ -87,6 +86,7 @@ func FindCommit(ctx context.Context, fn string, line int, w io.Writer) (current 
 		default:
 		}
 		buf := s.Text()
+		fmt.Println("buf", buf)
 		if writer != nil {
 			_, err := writer.WriteString(buf)
 			if err != nil {
