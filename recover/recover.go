@@ -1,4 +1,4 @@
-package recover
+package rec
 
 import (
 	"Ytool/env"
@@ -24,10 +24,14 @@ var (
 
 func RecoverFromPanic(funcName string) {
 	if e := recover(); e != nil {
+		//ctx:=context.Background()
 		buf := make([]byte, 64<<10)
 		buf = buf[:runtime.Stack(buf, false)]
 		log.Errorf("[%s] func_name: %v, stack: %s", funcName, e, string(buf))
 		panicError := fmt.Errorf("%v", e)
+		//commit:=log.FindCommit(ctx,)
+		_, fn, line, ok := runtime.Caller(2)
+		fmt.Println("filename", fn, "line", line, " okk?", ok)
 		ReportPanic(panicError.Error(), funcName, string(buf))
 	}
 	return

@@ -2,18 +2,13 @@ package main
 
 import (
 	_ "Ytool/debug"
-	"Ytool/log"
-	"bytes"
-	"context"
+	"Ytool/test"
 	"fmt"
 )
 
-var stderr bytes.Buffer
-
 func main() {
-	ctx := context.Background()
-	err := log.FindCommit(ctx, "./work-config.yml", 10, nil)
-	if err != nil {
-		fmt.Println(err)
-	}
+	fmt.Println("welcome")
+	test.TestBlame()
+	fmt.Println("over")
+
 }
