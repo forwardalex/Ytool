@@ -98,7 +98,6 @@ func FindCommit(ctx context.Context, fn string, line int, w io.Writer) (current 
 			}
 		}
 		infos := strings.Split(buf, " ")
-		fmt.Println("git blame info", infos[0], " info[1] ", infos[1])
 		switch infos[0] {
 		case authorPrefix:
 			current.AuthorName = infos[1]
