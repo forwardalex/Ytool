@@ -50,7 +50,6 @@ func initMail() (d *gomail.Dialer, err error) {
 		log.Error("err ", err)
 		return nil, err
 	}
-	log.Info("mail", mailConf)
 	d = gomail.NewDialer(mailConf.Host, mailConf.Port, mailConf.User, mailConf.PassWord)
 	return d, nil
 }
