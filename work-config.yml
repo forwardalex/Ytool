@@ -4,7 +4,7 @@ debug:
   needDebug: true
   mail: #发送服务信息使用邮箱
     user: 1017235442@qq.com
-    password: yuqspzlbfgllbbae #qq邮箱密码为授权码
+    password: 123456 #qq邮箱密码为授权码
     port: 465         #接收邮件服务器：imap.qq.com，使用SSL，端口号993
     host: smtp.qq.com #发送邮件服务器：smtp.qq.com，使用SSL，端口号465或587
   mysql: #mysql 开发环境连接重定向地址
