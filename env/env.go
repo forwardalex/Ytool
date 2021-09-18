@@ -1,6 +1,7 @@
 package env
 
 import (
+	"Ytool/log"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -87,7 +88,7 @@ func HostIP() string {
 	// 公网ip
 	responseClient, errClient := http.Get("https://ipw.cn/api/ip/myip") // 获取外网 IP
 	if errClient != nil {
-		fmt.Printf("获取外网 IP 失败，请检查网络\n")
+		log.Error("err ", "获取外网 IP 失败，请检查网络")
 		panic(errClient)
 	}
 	// 程序在使用完 response 后必须关闭 response 的主体。

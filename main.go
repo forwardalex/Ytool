@@ -1,16 +1,14 @@
 package main
 
 import (
-	_ "Ytool/debug"
-	"Ytool/layzeInit"
 	"Ytool/log"
 	"Ytool/mail"
+	"Ytool/tool"
 	"fmt"
 )
 
 func main() {
-	layzeInit.RegisterAssembly()
-
+	tool.Init()
 	fmt.Println("welcome")
 	err := mail.Testmail()
 	if err != nil {
