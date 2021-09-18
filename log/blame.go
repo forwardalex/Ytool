@@ -86,7 +86,6 @@ func FindCommit(ctx context.Context, fn string, line int, w io.Writer) (current 
 		default:
 		}
 		buf := s.Text()
-		fmt.Println("buf", buf)
 		if writer != nil {
 			_, err := writer.WriteString(buf)
 			if err != nil {
@@ -128,6 +127,5 @@ func FindCommit(ctx context.Context, fn string, line int, w io.Writer) (current 
 		}
 		return current, err
 	}
-	fmt.Println("see ", current)
 	return current, nil
 }

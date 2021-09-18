@@ -32,6 +32,7 @@ func SendMail(mailTo []string, subject string, body string, d *gomail.Dialer) er
 	err := d.DialAndSend(m)
 	return err
 }
+
 func Testmail() error {
 	//定义收件人
 	mailTo := []string{
