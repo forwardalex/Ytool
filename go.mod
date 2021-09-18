@@ -7,6 +7,7 @@ require (
 	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/ghodss/yaml v1.0.0
 	github.com/gin-gonic/gin v1.7.4
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect

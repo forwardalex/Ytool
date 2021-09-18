@@ -1,43 +1,49 @@
 package mail
 
 import (
+	"Ytool/debug"
+	"Ytool/enum"
+	"Ytool/layzeInit"
 	"gopkg.in/gomail.v2"
-	"strconv"
 )
 
-func SendMail(mailTo []string, subject string, body string) error {
-	//定义邮箱服务器连接信息，如果是阿里邮箱 pass填密码，qq邮箱填授权码
-	mailConn := map[string]string{
-		"user": "zhangqiang@xxxx.com",
-		"pass": "xxxx",
-		"host": "smtp.mxhichina.com",
-		"port": "465",
+var MailDail *gomail.Dialer
+
+func GetMailConn() *gomail.Dialer {
+	if MailDail != nil {
+		return MailDail
+	}
+	assembly := layzeInit.GetAssembly(enum.GetAssemblyEnum().Mail)
+
+	if assembly == nil {
+		return nil
 	}
 
-	port, _ := strconv.Atoi(mailConn["port"]) //转换端口类型为int
-
-	m := gomail.NewMessage()
-	m.SetHeader("From", "XD Game"+"<"+mailConn["user"]+">") //这种方式可以添加别名，即“XD Game”， 也可以直接用<code>m.SetHeader("From",mailConn["user"])</code> 读者可以自行实验下效果
-	m.SetHeader("To", mailTo...)                            //发送给多个用户
-	m.SetHeader("Subject", subject)                         //设置邮件主题
-	m.SetBody("text/html", body)                            //设置邮件正文
-
-	d := gomail.NewDialer(mailConn["host"], port, mailConn["user"], mailConn["pass"])
-
-	err := d.DialAndSend(m)
-	return err
-
+	return assembly.(*gomail.Dialer)
 }
-func main() {
+
+func SendMail(mailTo []string, subject string, body string) error {
+	conf := debug.GetMailConf()
+	m := gomail.NewMessage()
+	m.SetHeader("From", "yxz "+"<"+conf.User+">") //这种方式可以添加别名，即“XD Game”， 也可以直接用<code>m.SetHeader("From",mailConn["user"])</code> 读者可以自行实验下效果
+	m.SetHeader("To", mailTo...)                  //发送给多个用户
+	m.SetHeader("Subject", subject)               //设置邮件主题
+	m.SetBody("text/html", body)                  //设置邮件正文
+	err := GetMailConn().DialAndSend(m)
+	return err
+}
+func Testmail() error {
 	//定义收件人
 	mailTo := []string{
-		"zhangqiang@xxx.com",
-		"abc@qq.com",
-		"sssdd@qq.com",
+		"550507808@qq.com",
 	}
 	//邮件主题为"Hello"
-	subject := "Hello"
+	subject := "title"
 	// 邮件正文
-	body := "Good"
-	SendMail(mailTo, subject, body)
+	body := "this is a test mail"
+	err := SendMail(mailTo, subject, body)
+	if err != nil {
+		return err
+	}
+	return nil
 }

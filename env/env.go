@@ -11,6 +11,8 @@ import (
 // Env 定义环境变量用词
 type Env string
 
+var Getenv string
+
 const (
 	// EnvLocal 本地调试环境
 	EnvLocal Env = "local"
@@ -98,4 +100,13 @@ func HostIP() string {
 
 func PodName() string {
 	return os.Getenv("podName")
+}
+
+func GetENV() string {
+	if Getenv != "" {
+		return Getenv
+	} else {
+		Getenv = os.Getenv("ENV_NAME")
+		return Getenv
+	}
 }

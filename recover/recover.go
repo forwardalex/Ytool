@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"runtime"
 	"sync"
 	"time"
@@ -35,6 +36,16 @@ func RecoverFromPanic(funcName string) {
 		}
 		panicError := fmt.Errorf("%v", e)
 		log.Infof("%s,%s", commit, panicError)
+		getenv := os.Getenv("ENV_name")
+		switch getenv {
+		case env.EnvMapStr[env.EnvLocal], env.EnvMapStr[env.EnvDevelopment]:
+			log.Infof("panic commit is %s,commit filename is %s line is %s ", commit.CommitName, fn, line)
+		case env.EnvMapStr[env.EnvTest], env.EnvMapStr[env.EnvPreRelease], env.EnvMapStr[env.EnvProduction]:
+			err = ReportPanicCommit(panicError.Error(), funcName, fn, string(buf), commit)
+			if err != nil {
+				log.Error("report failed ", err)
+			}
+		}
 		//ReportPanicCommit(panicError.Error(),funcName,fn,string(buf),commit)
 		//ReportPanic(panicError.Error(), funcName, string(buf))
 	}

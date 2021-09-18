@@ -2,12 +2,20 @@ package main
 
 import (
 	_ "Ytool/debug"
-	"Ytool/test"
+	"Ytool/layzeInit"
+	"Ytool/log"
+	"Ytool/mail"
 	"fmt"
 )
 
 func main() {
+	layzeInit.RegisterAssembly()
+
 	fmt.Println("welcome")
-	test.TestBlame()
-	fmt.Println("over")
+	err := mail.Testmail()
+	if err != nil {
+		log.Error("err ", err)
+	}
+	fmt.Println()
+
 }

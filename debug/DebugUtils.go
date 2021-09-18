@@ -14,7 +14,13 @@ type debugConfig struct {
 	Debug struct {
 		ENV       string `yaml:"env"`
 		NeedDebug bool   `yaml:"needDebug"`
-		Mysql     struct {
+		Mail      struct {
+			User     string `yaml:"user"`
+			Host     string `yaml:"host"`
+			Password string `yaml:"password"`
+			Port     int    `yaml:"port"`
+		} `yaml:"mail"`
+		Mysql struct {
 			Host     string `yaml:"host"`
 			User     string `yaml:"user"`
 			Password string `yaml:"password"`
@@ -156,4 +162,14 @@ func ReadYml(path string, obj interface{}) error {
 		return err
 	}
 	return yaml.Unmarshal(yamlFile, obj)
+}
+
+func GetMailConf() (mail *model.MailConn) {
+	mail = &model.MailConn{
+		User:     Config.Debug.Mail.User,
+		PassWord: Config.Debug.Mail.Password,
+		Host:     Config.Debug.Mail.Host,
+		Port:     Config.Debug.Mail.Port,
+	}
+	return mail
 }
