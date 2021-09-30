@@ -33,3 +33,20 @@ func BreakerInterceptor(ctx context.Context, method string, req, reply interface
 		// codes.Acceptable判断哪种错误需要加入熔断错误计数
 	}, codes.Acceptable)
 }
+
+// 填坑测试
+func BreakerInterceptor2() grpc.UnaryServerInterceptor {
+	interceptor := grpc.UnaryServerInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		log.Infof("grpc method:", info.FullMethod, ",requestBody is:", req)
+		breaker.DoWithAcceptable(info.FullMethod, func() (err error) {
+			resp, err = handler(ctx, req)
+			if err != nil {
+				log.Errorf("grpc method:", info.FullMethod, "Error,", err)
+			}
+			log.Infof("grpc method:", info.FullMethod, ",responseBody is:", resp)
+			return err
+		}, codes.Acceptable)
+		return resp, err
+	})
+	return interceptor
+}
