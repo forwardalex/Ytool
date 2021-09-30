@@ -4,8 +4,10 @@ import (
 	"Ytool/codes"
 	"Ytool/log"
 	"context"
+	"fmt"
 	"github.com/tal-tech/go-zero/core/breaker"
 	"google.golang.org/grpc"
+	"net"
 	"path"
 )
 
@@ -49,4 +51,17 @@ func BreakerInterceptor2() grpc.UnaryServerInterceptor {
 		return resp, err
 	})
 	return interceptor
+}
+
+func test() {
+	lis, err := net.Listen("tcp", ":50056")
+	if err != nil {
+		log.Fatal("failed to listen: %v", err)
+	}
+	size := 100 * 1024 * 1024
+	s := grpc.NewServer(grpc.MaxRecvMsgSize(size), grpc.MaxSendMsgSize(size))
+	if err := s.Serve(lis); err != nil {
+		log.Fatal("failed: %v", err)
+	}
+	fmt.Println("Proxy started")
 }
