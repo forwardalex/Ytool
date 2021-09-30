@@ -59,7 +59,7 @@ func test() {
 		log.Fatal("failed to listen: %v", err)
 	}
 	size := 100 * 1024 * 1024
-	s := grpc.NewServer(grpc.MaxRecvMsgSize(size), grpc.MaxSendMsgSize(size))
+	s := grpc.NewServer(grpc.MaxRecvMsgSize(size), grpc.MaxSendMsgSize(size), grpc.ChainUnaryInterceptor(BreakerInterceptor2()))
 	if err := s.Serve(lis); err != nil {
 		log.Fatal("failed: %v", err)
 	}
