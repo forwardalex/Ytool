@@ -63,5 +63,6 @@ func test() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatal("failed: %v", err)
 	}
+	s.RegisterService(&u.HospitalManagement_ServiceDesc)
 	fmt.Println("Proxy started")
 }
