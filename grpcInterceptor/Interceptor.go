@@ -3,6 +3,8 @@ package grpcInterceptor
 import (
 	"Ytool/codes"
 	"Ytool/log"
+	"Ytool/proto"
+	"Ytool/svc"
 	"context"
 	"fmt"
 	"github.com/tal-tech/go-zero/core/breaker"
@@ -63,6 +65,6 @@ func test() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatal("failed: %v", err)
 	}
-	s.RegisterService(&u.HospitalManagement_ServiceDesc)
+	s.RegisterService(&proto.AopTest_ServiceDesc, &svc.Svc{})
 	fmt.Println("Proxy started")
 }
