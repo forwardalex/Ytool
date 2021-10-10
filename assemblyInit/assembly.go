@@ -1,9 +1,9 @@
 package assemblyInit
 
 import (
-	"Ytool/enum"
-	"Ytool/model"
 	"context"
+	"github.com/forwardalex/Ytool/enum"
+	"github.com/forwardalex/Ytool/model"
 )
 
 type Assembly interface {

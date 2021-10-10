@@ -1,9 +1,9 @@
 package debug
 
 import (
-	"Ytool/log"
-	"Ytool/model"
 	"fmt"
+	"github.com/forwardalex/Ytool/log"
+	"github.com/forwardalex/Ytool/model"
 	"github.com/ghodss/yaml"
 	"io/ioutil"
 	"os"

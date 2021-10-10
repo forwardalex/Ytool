@@ -1,7 +1,7 @@
 package aop
 
 import (
-	"Ytool/log"
+	"github.com/forwardalex/Ytool/log"
 )
 
 type ServerAspect struct{}

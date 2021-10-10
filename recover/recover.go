@@ -1,13 +1,14 @@
 package rec
 
 import (
-	"Ytool/env"
-	"Ytool/log"
-	"Ytool/model"
 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/forwardalex/Ytool/env"
+	"github.com/forwardalex/Ytool/log"
+	"github.com/forwardalex/Ytool/mail"
+	"github.com/forwardalex/Ytool/model"
 	"net/http"
 	"os"
 	"runtime"
@@ -49,7 +50,10 @@ func RecoverFromPanic(funcName string) {
 			if err != nil {
 				log.Error("report failed ", err)
 			}
+		default:
+			fmt.Println(err)
 		}
+
 	}
 	return
 }
@@ -109,8 +113,8 @@ func ReportPanicCommit(errInfo, funcName, stack, fileName string, line int, comm
 		handleUser := strings.Trim(commit.CommitEmail, "<>")
 		fmt.Println(handleUser)
 		fmt.Println(mailBody)
-		//mailTo:=[]string{handleUser}
-		//err=mail.SendMail(mailTo,"server panic",mailBody,mail.GetMailConn())
+		mailTo := []string{handleUser}
+		err = mail.SendMail(mailTo, "server panic", mailBody, mail.GetMailConn())
 		if err != nil {
 			log.Error("send mail failed ", err)
 		}

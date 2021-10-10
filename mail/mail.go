@@ -1,9 +1,9 @@
 package mail
 
 import (
-	"Ytool/debug"
-	"Ytool/enum"
-	"Ytool/layzeInit"
+	"github.com/forwardalex/Ytool/debug"
+	"github.com/forwardalex/Ytool/enum"
+	"github.com/forwardalex/Ytool/layzeInit"
 	"gopkg.in/gomail.v2"
 )
 

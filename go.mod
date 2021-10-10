@@ -1,4 +1,4 @@
-module Ytool
+module github.com/forwardalex/Ytool
 
 go 1.16
 

@@ -1,9 +1,9 @@
 package layzeInit
 
 import (
-	"Ytool/assemblyInit"
-	"Ytool/enum"
 	"context"
+	"github.com/forwardalex/Ytool/assemblyInit"
+	"github.com/forwardalex/Ytool/enum"
 )
 
 var assemblyMap = make(map[enum.Enum]assemblyInit.Assembly)

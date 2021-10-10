@@ -1,7 +1,7 @@
 package test
 
 import (
-	rec "Ytool/recover"
+	rec "github.com/forwardalex/Ytool/recover"
 )
 
 func TestBlame() {

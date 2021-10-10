@@ -3,11 +3,11 @@ package assemblyInit
 import (
 	"Ytool/debug"
 	"Ytool/enum"
-	"Ytool/log"
 	"Ytool/model"
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/forwardalex/Ytool/log"
 	_ "github.com/go-sql-driver/mysql" //mysql 驱动
 	"os"
 	"os/exec"

@@ -1,9 +1,9 @@
 package svc
 
 import (
-	"Ytool/log"
-	"Ytool/proto"
 	"context"
+	"github.com/forwardalex/Ytool/log"
+	"github.com/forwardalex/Ytool/proto"
 )
 
 type Svc struct {

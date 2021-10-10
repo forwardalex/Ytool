@@ -1,12 +1,12 @@
 package grpcInterceptor
 
 import (
-	"Ytool/codes"
-	"Ytool/log"
-	"Ytool/proto"
-	"Ytool/svc"
 	"context"
 	"fmt"
+	"github.com/forwardalex/Ytool/codes"
+	"github.com/forwardalex/Ytool/log"
+	"github.com/forwardalex/Ytool/proto"
+	"github.com/forwardalex/Ytool/svc"
 	"github.com/tal-tech/go-zero/core/breaker"
 	"google.golang.org/grpc"
 	"net"
@@ -55,7 +55,7 @@ func BreakerInterceptor2() grpc.UnaryServerInterceptor {
 	return interceptor
 }
 
-func test() {
+func Test() {
 	lis, err := net.Listen("tcp", ":50056")
 	if err != nil {
 		log.Fatal("failed to listen: %v", err)

@@ -1,15 +1,15 @@
 package main
 
 import (
-	"Ytool/test"
-	"Ytool/tool"
 	"fmt"
+	"github.com/forwardalex/Ytool/grpcInterceptor"
+	"github.com/forwardalex/Ytool/tool"
 )
 
 func main() {
 	tool.Init()
 	fmt.Println("welcome")
-	test.TestBlame()
-	fmt.Println("over")
+	//test.TestBlame()
+	grpcInterceptor.Test()
 
 }

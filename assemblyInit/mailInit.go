@@ -1,11 +1,11 @@
 package assemblyInit
 
 import (
-	"Ytool/debug"
-	"Ytool/enum"
-	"Ytool/log"
-	"Ytool/model"
 	"context"
+	"github.com/forwardalex/Ytool/debug"
+	"github.com/forwardalex/Ytool/enum"
+	"github.com/forwardalex/Ytool/log"
+	"github.com/forwardalex/Ytool/model"
 	"gopkg.in/gomail.v2"
 )
 

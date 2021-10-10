@@ -1,8 +1,8 @@
 package tool
 
 import (
-	_ "Ytool/debug"
-	"Ytool/layzeInit"
+	_ "github.com/forwardalex/Ytool/debug"
+	"github.com/forwardalex/Ytool/layzeInit"
 )
 
 func Init() {
