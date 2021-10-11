@@ -38,7 +38,7 @@ func BreakerInterceptor(ctx context.Context, method string, req, reply interface
 	}, codes.Acceptable)
 }
 
-// 填坑测试
+// 填坑测试  拦截器相关于一个aop
 func BreakerInterceptor2() grpc.UnaryServerInterceptor {
 	interceptor := grpc.UnaryServerInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		log.Infof("grpc method:", info.FullMethod, ",requestBody is:", req)
