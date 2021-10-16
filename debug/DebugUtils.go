@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"time"
 )
 
 type debugConfig struct {
@@ -20,6 +21,15 @@ type debugConfig struct {
 			Password string `yaml:"password"`
 			Port     int    `yaml:"port"`
 		} `yaml:"mail"`
+		Etcd struct {
+			Endpoints            []string      `yaml:"endpoints"`
+			AutoSyncInterval     time.Duration `yaml:"auto-sync-interval"`
+			DialTimeout          int           `yaml:"dialTimeout "`
+			DialKeepAliveTime    time.Duration `yaml:"dial-keep-alive-time"`
+			DialKeepAliveTimeout time.Duration `yaml:"dial-keep-alive-timeout"`
+			MaxCallSendMsgSize   int
+			MaxCallRecvMsgSize   int
+		} `yaml:"etcd"`
 		Mysql struct {
 			Host     string `yaml:"host"`
 			User     string `yaml:"user"`
@@ -164,12 +174,19 @@ func ReadYml(path string, obj interface{}) error {
 	return yaml.Unmarshal(yamlFile, obj)
 }
 
-func GetMailConf() (mail *model.MailConn) {
-	mail = &model.MailConn{
+func GetMailConf() (mail *model.MailConf) {
+	mail = &model.MailConf{
 		User:     Config.Debug.Mail.User,
 		PassWord: Config.Debug.Mail.Password,
 		Host:     Config.Debug.Mail.Host,
 		Port:     Config.Debug.Mail.Port,
 	}
 	return mail
+}
+func GetEtcdConf() (etcd *model.EtcdConf) {
+	etcd = &model.EtcdConf{
+		Endpoints:   Config.Debug.Etcd.Endpoints,
+		DialTimeout: time.Duration(Config.Debug.Etcd.DialTimeout) * time.Second,
+	}
+	return etcd
 }

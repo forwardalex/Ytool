@@ -1,6 +1,6 @@
 package model
 
-type MailConn struct {
+type MailConf struct {
 	User     string
 	PassWord string
 	Host     string
