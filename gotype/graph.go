@@ -115,3 +115,8 @@ func (g *Graph) FillGraph(meta [][]int) {
 		g.Edges.Add(newEdge)
 	}
 }
+
+//todo  dfn  bfs
+func (g *Graph) DFSGraph() {
+
+}
