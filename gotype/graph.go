@@ -122,7 +122,6 @@ func (g *Graph) FillGraph(meta [][]int) {
 	}
 }
 
-//todo  dfn  bfs
 func (g *Graph) BFSGraph(node *GNode) {
 	if reflect.DeepEqual(node, &GNode{}) {
 		return

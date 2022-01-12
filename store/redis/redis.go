@@ -23,7 +23,7 @@ type (
 /* 	&redis.Options{
 	Addr:         "127.0.0.1:6379",
 	Password:     "hello", // no password set
-	DB:           0,       // use default DB
+	db:           0,       // use default db
 	PoolSize:     100,
 	MinIdleConns: 50,
 }
