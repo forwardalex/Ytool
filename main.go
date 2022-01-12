@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/forwardalex/Ytool/grpcInterceptor"
+	"github.com/forwardalex/Ytool/grpc/grpcInterceptor"
 	"github.com/forwardalex/Ytool/tool"
 )
 

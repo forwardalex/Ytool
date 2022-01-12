@@ -22,7 +22,7 @@ type MySqlInit struct {
 func (impl *MySqlInit) InitAssembly(ctx context.Context) interface{} {
 	db, err := initDB()
 	if err != nil {
-		log.Fatal("", err.Error())
+		log.Fatal(context.Background(), "", err.Error())
 	}
 	return db
 }
@@ -54,16 +54,16 @@ func initDB() (*sql.DB, error) {
 	debug.ConfigDebugDB(&dbConf)
 
 	if err != nil {
-		log.Error("err ", err)
+		log.Error(context.Background(), "err ", err)
 		return nil, err
 	}
 	dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		dbConf.User, dbConf.Password, dbConf.Host,
 		dbConf.Port, dbConf.Database)
-	log.Info("db=", dsn)
+	log.Info(context.Background(), "db=", dsn)
 	conn, err := sql.Open("mysql", dsn)
 	if err != nil {
-		log.Error("open mysql err:", err.Error())
+		log.Error(context.Background(), "open mysql err:", err.Error())
 		return nil, err
 	}
 	return conn, nil

@@ -62,7 +62,7 @@ func FindCommit(ctx context.Context, fn string, line int, w io.Writer) (current 
 	cmd := exec.Command("git", "blame", "-e", "--root", "--line-porcelain", fn, fmt.Sprintf("-L %d,%d", line, line))
 	r, err := cmd.StdoutPipe()
 	if err != nil {
-		Error("ERR ", err.Error())
+		Error(context.Background(), "ERR ", err.Error())
 	}
 	if err := cmd.Start(); err != nil {
 		fmt.Println(err)

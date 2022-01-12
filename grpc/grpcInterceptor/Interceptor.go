@@ -16,12 +16,12 @@ import (
 // 请求日志打印
 func ReqLogInterceptor() grpc.UnaryServerInterceptor {
 	interceptor := grpc.UnaryServerInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		log.Infof("grpc method:", info.FullMethod, ",requestBody is:", req)
+		log.Infof(context.Background(), "grpc method:", info.FullMethod, ",requestBody is:", req)
 		resp, err = handler(ctx, req)
 		if err != nil {
-			log.Errorf("grpc method:", info.FullMethod, "Error,", err)
+			log.Errorf(context.Background(), "grpc method:", info.FullMethod, "Error,", err)
 		}
-		log.Infof("grpc method:", info.FullMethod, ",responseBody is:", resp)
+		log.Infof(context.Background(), "grpc method:", info.FullMethod, ",responseBody is:", resp)
 		return resp, err
 	})
 	return interceptor
@@ -41,13 +41,13 @@ func BreakerInterceptor(ctx context.Context, method string, req, reply interface
 // 填坑测试  拦截器相关于一个aop
 func BreakerInterceptor2() grpc.UnaryServerInterceptor {
 	interceptor := grpc.UnaryServerInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		log.Infof("grpc method:", info.FullMethod, ",requestBody is:", req)
+		log.Infof(context.Background(), "grpc method:", info.FullMethod, ",requestBody is:", req)
 		breaker.DoWithAcceptable(info.FullMethod, func() (err error) {
 			resp, err = handler(ctx, req)
 			if err != nil {
-				log.Errorf("grpc method:", info.FullMethod, "Error,", err)
+				log.Errorf(context.Background(), "grpc method:", info.FullMethod, "Error,", err)
 			}
-			log.Infof("grpc method:", info.FullMethod, ",responseBody is:", resp)
+			log.Infof(context.Background(), "grpc method:", info.FullMethod, ",responseBody is:", resp)
 			return err
 		}, codes.Acceptable)
 		return resp, err
@@ -58,12 +58,16 @@ func BreakerInterceptor2() grpc.UnaryServerInterceptor {
 func Test() {
 	lis, err := net.Listen("tcp", ":50056")
 	if err != nil {
-		log.Fatal("failed to listen: %v", err)
+		log.Fatal(context.Background(), "failed to listen: %v", err)
 	}
 	size := 100 * 1024 * 1024
-	s := grpc.NewServer(grpc.MaxRecvMsgSize(size), grpc.MaxSendMsgSize(size), grpc.ChainUnaryInterceptor(BreakerInterceptor2()))
+	s := grpc.NewServer(
+		grpc.MaxRecvMsgSize(size),
+		grpc.MaxSendMsgSize(size),
+		grpc.ChainUnaryInterceptor(BreakerInterceptor2()),
+	)
 	if err := s.Serve(lis); err != nil {
-		log.Fatal("failed: %v", err)
+		log.Fatal(context.Background(), "failed: %v", err)
 	}
 	s.RegisterService(&proto.AopTest_ServiceDesc, &svc.Svc{})
 	fmt.Println("Proxy started")

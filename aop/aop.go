@@ -2,6 +2,7 @@ package aop
 
 import (
 	"bou.ke/monkey"
+	"context"
 	"github.com/forwardalex/Ytool/log"
 	"reflect"
 	"time"
@@ -84,7 +85,7 @@ func RegisterPoint(pointType reflect.Type, aspect AspectInterface) {
 
 //前置处理
 func beforeProcessed(point *JoinPoint, aspect AspectInterface) (bool, error) {
-	log.Info("before", nil)
+	log.Info(context.Background(), "before", nil)
 	if &aspect != nil {
 		before, err := aspect.Before(point)
 		if !before || err != nil {
@@ -96,7 +97,7 @@ func beforeProcessed(point *JoinPoint, aspect AspectInterface) (bool, error) {
 
 //后置处理
 func afterProcessed(point *JoinPoint, aspect AspectInterface) {
-	log.Info("after", nil)
+	log.Info(context.Background(), "after", nil)
 	if &aspect != nil {
 		aspect.After(point)
 	}
@@ -104,7 +105,7 @@ func afterProcessed(point *JoinPoint, aspect AspectInterface) {
 
 //最终处理
 func finallyProcessed(point *JoinPoint, aspect AspectInterface) {
-	log.Info("end", nil)
+	log.Info(context.Background(), "end", nil)
 	if &aspect != nil {
 		aspect.Finally(point)
 	}

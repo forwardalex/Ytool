@@ -11,7 +11,7 @@ type Svc struct {
 }
 
 func (s *Svc) Hello(ctx context.Context, req *proto.CheckResultReq) (resp *proto.CheckResultResp, err error) {
-	log.Info("mock test", "")
+	log.Info(context.Background(), "mock test", "")
 	resp = &proto.CheckResultResp{
 		ResponseCode: "1",
 	}

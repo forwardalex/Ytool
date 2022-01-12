@@ -33,22 +33,22 @@ func RecoverFromPanic(funcName string) {
 		_, fn, line, _ := runtime.Caller(2)
 		commit, err := log.FindCommit(ctx, fn, line, nil)
 		if err != nil {
-			log.Error("error ", err.Error())
+			log.Error(context.Background(), "error ", err.Error())
 		}
 		panicError := fmt.Errorf("%v", e)
 		getenv := os.Getenv("ENV_NAME")
-		log.Infof("commit is %s, panic err is %s env is %s ", commit, panicError, getenv)
+		log.Infof(context.Background(), "commit is %s, panic err is %s env is %s ", commit, panicError, getenv)
 		switch getenv {
 		case env.EnvMapStr[env.EnvLocal], env.EnvMapStr[env.EnvDevelopment]:
-			log.Infof("panic commit is %s,commit filename is %s line is %d ", commit.CommitName, fn, line)
+			log.Infof(context.Background(), "panic commit is %s,commit filename is %s line is %d ", commit.CommitName, fn, line)
 			err = ReportPanicCommit(panicError.Error(), funcName, fn, string(buf), line, commit)
 			if err != nil {
-				log.Error("report failed ", err)
+				log.Error(context.Background(), "report failed ", err)
 			}
 		case env.EnvMapStr[env.EnvTest], env.EnvMapStr[env.EnvPreRelease], env.EnvMapStr[env.EnvProduction]:
 			err = ReportPanicCommit(panicError.Error(), funcName, fn, string(buf), line, commit)
 			if err != nil {
-				log.Error("report failed ", err)
+				log.Error(context.Background(), "report failed ", err)
 			}
 		default:
 			fmt.Println(err)
@@ -116,7 +116,7 @@ func ReportPanicCommit(errInfo, funcName, stack, fileName string, line int, comm
 		mailTo := []string{handleUser}
 		err = mail.SendMail(mailTo, "server panic", mailBody, mail.GetMailConn())
 		if err != nil {
-			log.Error("send mail failed ", err)
+			log.Error(context.Background(), "send mail failed ", err)
 		}
 	})
 	return nil

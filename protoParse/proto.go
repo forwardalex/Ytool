@@ -1,6 +1,7 @@
 package protoParse
 
 import (
+	"context"
 	"fmt"
 	"github.com/emicklei/proto"
 	"github.com/forwardalex/Ytool/log"
@@ -16,7 +17,7 @@ func NewProto(fileName string) {
 	var parser *proto.Parser
 	file, err := os.Open(fileName)
 	if err != nil {
-		log.Error("open file failed ", err)
+		log.Error(context.Background(), "open file failed ", err)
 		return
 	}
 	defer file.Close()

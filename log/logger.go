@@ -1,6 +1,7 @@
 package log
 
 import (
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/natefinch/lumberjack"
@@ -160,33 +161,44 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 	}
 }
 
-func Info(msg string, value interface{}) {
-	zap.L().Info(msg, zap.Any(msg, value))
+func Info(ctx context.Context, msg string, value interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Info(msg, zap.Any("", value), zap.Any("traceID", md[TraceStringKey]))
 }
-func Infof(format string, value ...interface{}) {
-	zap.L().Info("", zap.Any("info", fmt.Sprintf(format, value...)))
+
+func Infof(ctx context.Context, format string, value ...interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Info("", zap.Any("info", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Debug(msg string, value interface{}) {
-	zap.L().Debug(msg, zap.Any(msg, value))
+func Debug(ctx context.Context, msg string, value interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Debug(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
 }
-func Debugf(format string, value ...interface{}) {
-	zap.L().Info("", zap.Any("debug", fmt.Sprintf(format, value...)))
+func Debugf(ctx context.Context, format string, value ...interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Info("", zap.Any("debug", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Warn(msg string, value interface{}) {
-	zap.L().Warn(msg, zap.Any(msg, value))
+func Warn(ctx context.Context, msg string, value interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Warn(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
 }
-func Warnf(format string, value ...interface{}) {
-	zap.L().Info("warn", zap.Any("warn", fmt.Sprintf(format, value...)))
+func Warnf(ctx context.Context, format string, value ...interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Info("warn", zap.Any("warn", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Error(msg string, value interface{}) {
-	zap.L().Error(msg, zap.Any(msg, value))
+func Error(ctx context.Context, msg string, value interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Error(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
 }
-func Errorf(format string, value ...interface{}) {
-	zap.L().Info("error", zap.Any("error", fmt.Sprintf(format, value...)))
+func Errorf(ctx context.Context, format string, value ...interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Info("error", zap.Any("error", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Fatal(msg string, value interface{}) {
-	zap.L().Fatal(msg, zap.Any(msg, value))
+func Fatal(ctx context.Context, msg string, value interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Fatal(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
 }
-func Fatalf(format string, value ...interface{}) {
-	zap.L().Info("warn", zap.Any("fatal", fmt.Sprintf(format, value...)))
+func Fatalf(ctx context.Context, format string, value ...interface{}) {
+	md := GetInComeHeader(ctx)
+	zap.L().Info("warn", zap.Any("fatal", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }

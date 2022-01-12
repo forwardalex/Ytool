@@ -16,7 +16,7 @@ type MailInit struct {
 func (impl *MailInit) InitAssembly(ctx context.Context) interface{} {
 	conn, err := initMail()
 	if err != nil {
-		log.Fatal("", err.Error())
+		log.Fatal(context.Background(), "", err.Error())
 	}
 	return conn
 }
@@ -36,6 +36,6 @@ func initMail() (d *gomail.Dialer, err error) {
 	return d, nil
 }
 
-func getmailConfig() (conf *model.MailConn) {
+func getmailConfig() (conf *model.MailConf) {
 	return debug.GetMailConf()
 }

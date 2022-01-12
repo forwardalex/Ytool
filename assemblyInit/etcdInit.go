@@ -16,7 +16,7 @@ type EtcdInit struct {
 func (impl *EtcdInit) InitAssembly(ctx context.Context) interface{} {
 	conn, err := initMail()
 	if err != nil {
-		log.Fatal("", err.Error())
+		log.Fatal(context.Background(), "", err.Error())
 	}
 	return conn
 }
@@ -37,7 +37,7 @@ func initEtcd() (conn *clientv3.Client, err error) {
 		DialTimeout: etcdConf.DialTimeout,
 	})
 	if err != nil {
-		log.Error("creat etcd client failed", err)
+		log.Error(context.Background(), "creat etcd client failed", err)
 		return nil, err
 	}
 	return cli, nil

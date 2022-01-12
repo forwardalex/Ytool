@@ -1,6 +1,7 @@
 package debug
 
 import (
+	"context"
 	"fmt"
 	"github.com/forwardalex/Ytool/log"
 	"github.com/forwardalex/Ytool/model"
@@ -97,7 +98,7 @@ func init() {
 		// 加载配置文件
 		Config.GetConf()
 		os.Setenv("ENV_NAME", Config.Debug.ENV)
-		log.Info("ENV_NAME", os.Getenv("ENV_NAME"))
+		log.Info(context.Background(), "ENV_NAME", os.Getenv("ENV_NAME"))
 		if Config.Debug.NeedDebug {
 			fmt.Println("------本地环境可以开启debug模式------")
 			NeedDebug = true
