@@ -1,6 +1,10 @@
 package gotype
 
-import "sync"
+import (
+	"fmt"
+	"reflect"
+	"sync"
+)
 
 type Graph struct {
 	Nodes *NodesMap
@@ -10,32 +14,32 @@ type Graph struct {
 
 // NodesMap 为查找方便使用map替代数组
 type NodesMap struct {
-	m map[int]*GNode
+	M map[int]*GNode
 	sync.RWMutex
 }
 
 func (m *NodesMap) Put(key int, gNode *GNode) {
 	m.RLock()
 	defer m.RUnlock()
-	m.m[key] = gNode
+	m.M[key] = gNode
 }
 func (m *NodesMap) Add(gNode *GNode) {
 	m.RLock()
 	defer m.RUnlock()
-	m.m[gNode.value] = gNode
+	m.M[gNode.Value] = gNode
 }
 
 func (m *NodesMap) Get(key int) *GNode {
 	m.RLock()
 	defer m.RUnlock()
-	return m.m[key]
+	return m.M[key]
 }
 
 // Contains node是否存在
 func (m *NodesMap) Contains(key int) bool {
 	m.RLock()
 	defer m.RUnlock()
-	_, ok := m.m[key]
+	_, ok := m.M[key]
 	if ok {
 		return true
 	} else {
@@ -45,17 +49,17 @@ func (m *NodesMap) Contains(key int) bool {
 
 func NewNodesMap() *NodesMap {
 	return &NodesMap{
-		m: make(map[int]*GNode, 0),
+		M: make(map[int]*GNode, 0),
 	}
 }
 
 // GNode 图的node
 type GNode struct {
-	value int //node的值
-	in    int //出度
-	out   int //入度
-	nexts *NodesMap
-	edges []*GEdges
+	Value int //node的值
+	In    int //出度
+	Out   int //入度
+	Nexts *NodesMap
+	Edges []*GEdges
 }
 
 // GEdges 图的边
@@ -68,7 +72,9 @@ type GEdges struct {
 // NewGNode 新node
 func NewGNode(value int) *GNode {
 	return &GNode{
-		value: value,
+		Value: value,
+		Nexts: NewNodesMap(),
+		Edges: make([]*GEdges, 0),
 	}
 }
 
@@ -90,8 +96,8 @@ func NewGraph() *Graph {
 // FillGraph 将矩阵类型图边输入图中
 /*
 example
-[][]int{  1,2,3   //1为from node  2为to node  3为weight
-		  2,5,7
+[][]int{  {1,2,3},   //1为from node  2为to node  3为weight
+		  {2,5,7}
 }
 */
 func (g *Graph) FillGraph(meta [][]int) {
@@ -108,15 +114,54 @@ func (g *Graph) FillGraph(meta [][]int) {
 		fromNode := g.Nodes.Get(from)
 		toNode := g.Nodes.Get(to)
 		newEdge := NewGEdges(weight, fromNode, toNode)
-		fromNode.nexts.Add(fromNode)
-		fromNode.out++
-		toNode.in++
-		fromNode.edges = append(fromNode.edges, newEdge)
+		fromNode.Nexts.Add(toNode)
+		fromNode.Out++
+		toNode.In++
+		fromNode.Edges = append(fromNode.Edges, newEdge)
 		g.Edges.Add(newEdge)
 	}
 }
 
 //todo  dfn  bfs
-func (g *Graph) DFSGraph() {
+func (g *Graph) BFSGraph(node *GNode) {
+	if reflect.DeepEqual(node, &GNode{}) {
+		return
+	}
+	queue := NewSliceQueue()
+	hset := NewSet()
+	queue.EnQueue(node)
+	hset.Add(node)
+	for !queue.IsEmpty() {
+		cur := queue.DeQueue().(*GNode)
+		fmt.Println("bfs ", cur.Value)
+		for _, v := range cur.Nexts.M {
+			if !hset.Contains(v) {
+				hset.Add(v)
+				queue.EnQueue(v)
+			}
+		}
+	}
+}
 
+func (g *Graph) DFSGraph(node *GNode) {
+	if reflect.DeepEqual(node, &GNode{}) {
+		return
+	}
+	stack := NewSliceStack()
+	hset := NewSet()
+	stack.Push(node)
+	hset.Add(node)
+	fmt.Println("dfs ", node.Value)
+	for !stack.IsEmpty() {
+		cur := stack.Pop().(*GNode)
+		for _, next := range cur.Nexts.M {
+			if !hset.Contains(next) {
+				stack.Push(cur)
+				stack.Push(next)
+				hset.Add(next)
+				fmt.Println("dfs", next.Value)
+				break
+			}
+		}
+	}
 }
