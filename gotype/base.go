@@ -24,6 +24,7 @@ func NewBNode() *BNode {
 // TrieNode 前缀树
 type TrieNode struct {
 	IsLeaf bool
+	path   string
 	Url    string
 	Child  []*TrieNode
 }
@@ -43,4 +44,11 @@ type AVLNode struct {
 
 func NewAVLNode(data int) *AVLNode {
 	return &AVLNode{data, 1, 1, nil, nil}
+}
+
+func (t *TrieNode) Add(url skiplist) {
+
+}
+func (t *TrieNode) Delete() {
+
 }

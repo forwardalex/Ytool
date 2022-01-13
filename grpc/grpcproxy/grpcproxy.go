@@ -8,7 +8,7 @@ import (
 	"github.com/buger/jsonparser"
 	"github.com/forwardalex/Ytool/grpc/grpcproxy/grpcall"
 	"github.com/forwardalex/Ytool/log"
-	jsonconv "github.com/forwardalex/Ytool/utils"
+	"github.com/forwardalex/Ytool/utils/jsonconv"
 	"github.com/google/uuid"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
