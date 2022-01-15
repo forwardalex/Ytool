@@ -19,6 +19,7 @@ require (
 	github.com/google/uuid v1.1.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/jhump/protoreflect v1.10.1
+	github.com/jinzhu/copier v0.3.4
 	github.com/jonboulle/clockwork v0.2.2 // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/onsi/gomega v1.16.0 // indirect
