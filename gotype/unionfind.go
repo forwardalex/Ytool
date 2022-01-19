@@ -55,12 +55,12 @@ func (uf *UnionFind) Root(p int) int {
 	return p
 }
 
-// Root or Find
+// Find Root or Find
 func (uf *UnionFind) Find(p int) int {
 	return uf.Root(p)
 }
 
-// Check if items p,q are connected
+// IsConnected Check if items p,q are connected
 func (uf *UnionFind) IsConnected(p int, q int) bool {
 	return uf.Root(p) == uf.Root(q)
 }
