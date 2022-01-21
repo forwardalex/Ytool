@@ -1,7 +1,11 @@
 package redis
 
 import (
-	"github.com/go-redis/redis"
+	"context"
+	"fmt"
+	"github.com/forwardalex/Ytool/log"
+	"github.com/go-redis/redis/v8"
+	"time"
 )
 
 var (
@@ -30,9 +34,23 @@ type (
 */
 func NewClient(r *redis.Options) (err error) {
 	client = redis.NewClient(r)
-	_, err = client.Ping().Result()
+	_, err = client.Ping(context.Background()).Result()
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+//TryLock exp(ttl time)
+func TryLock(ctx context.Context, key string, client *redis.Client, exp time.Duration) (*Lock, error) {
+	locker := New(client)
+	lock, err := locker.Obtain(ctx, key, exp, nil)
+	if err == ErrNotObtained {
+		fmt.Println("Could not obtain lock!")
+		return nil, err
+	} else if err != nil {
+		log.Fatal(ctx, "", err.Error())
+		return nil, err
+	}
+	return lock, nil
 }

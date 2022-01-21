@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "./;proto";
+package AOPContent;
+
+service AopTest{
+  rpc hello(CheckResultReq) returns (CheckResultResp);
+  rpc hello2(CheckResultReq) returns (CheckResultResp);
+}
+
+message CheckResultReq{
+  string hello_string=1;
+}
+
+message CheckResultResp{
+  string response_code = 1; //操作结果，1成功，0失败
+}
+

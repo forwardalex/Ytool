@@ -9,7 +9,7 @@ ADD ${SERVER_NAME}.tar.gz /usr/local/services/${SERVER_NAME}
 # 安装启动脚本
 COPY ./build/${SERVER_NAME}.ini  /etc/supervisord.d/
 
-ENV product eyao
+ENV product yxzDev
 ENV service_name ${SERVER_NAME}
 
 
