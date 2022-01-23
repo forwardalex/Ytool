@@ -2,14 +2,10 @@ package grpcInterceptor
 
 import (
 	"context"
-	"fmt"
 	"github.com/forwardalex/Ytool/codes"
 	"github.com/forwardalex/Ytool/log"
-	"github.com/forwardalex/Ytool/proto"
-	"github.com/forwardalex/Ytool/svc"
 	"github.com/tal-tech/go-zero/core/breaker"
 	"google.golang.org/grpc"
-	"net"
 	"path"
 )
 
@@ -55,20 +51,20 @@ func BreakerInterceptor2() grpc.UnaryServerInterceptor {
 	return interceptor
 }
 
-func Test() {
-	lis, err := net.Listen("tcp", ":50056")
-	if err != nil {
-		log.Fatal(context.Background(), "failed to listen: %v", err)
-	}
-	size := 100 * 1024 * 1024
-	s := grpc.NewServer(
-		grpc.MaxRecvMsgSize(size),
-		grpc.MaxSendMsgSize(size),
-		grpc.ChainUnaryInterceptor(BreakerInterceptor2()),
-	)
-	if err := s.Serve(lis); err != nil {
-		log.Fatal(context.Background(), "failed: %v", err)
-	}
-	s.RegisterService(&proto.AopTest_ServiceDesc, &svc.Svc{})
-	fmt.Println("Proxy started")
-}
+//func Test() {
+//	lis, err := net.Listen("tcp", ":50056")
+//	if err != nil {
+//		log.Fatal(context.Background(), "failed to listen: %v", err)
+//	}
+//	size := 100 * 1024 * 1024
+//	s := grpc.NewServer(
+//		grpc.MaxRecvMsgSize(size),
+//		grpc.MaxSendMsgSize(size),
+//		grpc.ChainUnaryInterceptor(BreakerInterceptor2()),
+//	)
+//	if err := s.Serve(lis); err != nil {
+//		log.Fatal(context.Background(), "failed: %v", err)
+//	}
+//	s.RegisterService(&proto.AopTest_ServiceDesc, &svc.Svc{})
+//	fmt.Println("Proxy started")
+//}

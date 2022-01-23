@@ -1,19 +1,11 @@
 package svc
 
-import (
-	"context"
-	"github.com/forwardalex/Ytool/log"
-	"github.com/forwardalex/Ytool/proto"
-)
-
-type Svc struct {
+var str = `
+type %s struct {
 	proto.UnimplementedAopTestServer
 }
 
-func (s *Svc) Hello(ctx context.Context, req *proto.CheckResultReq) (resp *proto.CheckResultResp, err error) {
-	log.Info(context.Background(), "mock test", "")
-	resp = &proto.CheckResultResp{
-		ResponseCode: "1",
-	}
+func (s *%s) Hello(ctx context.Context, req *proto.%sReq) (resp *proto.%sResp, err error) {
 	return resp, nil
 }
+`

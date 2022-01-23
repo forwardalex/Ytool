@@ -13,7 +13,7 @@ require (
 	github.com/emicklei/proto v1.9.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/gin-gonic/gin v1.7.4
-	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/go-redis/redis/v8 v8.11.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/golang/protobuf v1.5.2
 	github.com/google/uuid v1.1.2
@@ -22,7 +22,6 @@ require (
 	github.com/jinzhu/copier v0.3.4
 	github.com/jonboulle/clockwork v0.2.2 // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible
-	github.com/onsi/gomega v1.16.0 // indirect
 	github.com/soheilhy/cmux v0.1.5 // indirect
 	github.com/stretchr/testify v1.7.0
 	github.com/tal-tech/go-zero v1.2.1
@@ -39,5 +38,6 @@ require (
 
 replace (
 	github.com/coreos/bbolt v1.3.6 => go.etcd.io/bbolt v1.3.6
+	//github.com/coreos/etcd v3.3.27+incompatible => go.etcd.io/etcd v3.5.1+incompatible
 	google.golang.org/grpc v1.43.0 => google.golang.org/grpc v1.26.0
 )
