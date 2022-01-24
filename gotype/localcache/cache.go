@@ -49,7 +49,9 @@ type Cache interface {
 }
 type baseCache struct {
 	clock            Clock
-	size             int
+	size             int //数量长度
+	memsizelimit     int //内存大小限制
+	curmemsize       int //当前value 内存占用
 	loaderExpireFunc LoaderExpireFunc
 	evictedFunc      EvictedFunc
 	purgeVisitorFunc PurgeVisitorFunc

@@ -1,0 +1,54 @@
+//管理端常见问题接口
+syntax = "proto3";
+
+package ManagerServer;
+option go_package = "github.com/forwardalex/Ytool/grpc/protoParse/testDir";
+
+service FaqService {
+    // 新增常见问题
+    rpc AddFaq(AddFaqReq) returns(FaqResp);
+
+    // 删除常见问题
+    rpc DeleteFaq(DelteFaqReq) returns(FaqResp);
+
+    // 更新常见问题
+    rpc UpdateFaq(UpdateFaqReq) returns(FaqResp);
+
+    // 查询常见问题
+    rpc QueryFaq(QueryFaqReq) returns(QueryFaqResp);
+}
+
+message FaqInfo {
+    int32 id = 1;
+    string app_id=2;
+    int32 faq_id=3;
+    string describe=4;
+    string answer=5;
+    string scene = 6;
+}
+
+message AddFaqReq{
+    FaqInfo faq = 1;
+}
+
+message FaqResp{
+    string ok=1;
+    string message=2;
+}
+message DelteFaqReq{
+    int32  id=1;
+    string app_id=2;
+}
+
+message QueryFaqReq{
+    int32 page_index = 1; // 页码
+    int32 page_size = 2; // 页面分页大小
+    string app_id=3;
+}
+message QueryFaqResp{
+    int64 total_count=1;
+    repeated FaqInfo infos=2;
+}
+message UpdateFaqReq{
+    FaqInfo info = 1;
+}
