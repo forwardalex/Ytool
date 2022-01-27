@@ -103,10 +103,13 @@ func StartWithInterceptor(port int, prefix string, target string, interceptor Pr
 		// 请求处理
 		ctx := context.Background()
 		traceId := uuid.New().String()
+		ctx, _ = log.WriteHeader(&ctx, log.TraceStringKey, traceId)
+		//log.Info(ctx," test trace ")
 		if interceptor != nil {
 			resp = interceptor(ctx, traceId, r, greq, string(body), BaseHandler)
 		} else {
-			resp = BaseHandler(ctx, traceId, greq, string(body), []string{})
+			traceidStr := fmt.Sprintf("traceid:%s", traceId)
+			resp = BaseHandler(ctx, traceId, greq, string(body), []string{traceidStr})
 		}
 
 		// key自动转换下划线

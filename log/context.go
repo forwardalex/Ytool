@@ -28,7 +28,7 @@ const (
 	TraceIDKey     key    = 100
 	logHeader      key    = 101
 	serverName     key    = 102
-	TraceStringKey string = "TraceID"
+	TraceStringKey string = "traceid"
 )
 
 // GetLogHeader 获取log头信息
