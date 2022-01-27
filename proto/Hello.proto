@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 option go_package = "./;proto";
-package TsepContent;
+package Hello;
 
-service AopTest{
-  rpc hello(CheckResultReq) returns (CheckResultResp);
-  rpc hello2(CheckResultReq) returns (CheckResultResp);
+service HelloService{
+  rpc Hello(CheckResultReq) returns (CheckResultResp);
+  rpc Hello2(CheckResultReq) returns (CheckResultResp);
 }
 
 message CheckResultReq{

@@ -7,6 +7,7 @@ import (
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"google.golang.org/grpc/metadata"
 	"net"
 	"net/http"
 	"net/http/httputil"
@@ -161,44 +162,44 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 	}
 }
 
-func Info(ctx context.Context, msg string, value interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Info(msg, zap.Any("", value), zap.Any("traceID", md[TraceStringKey]))
+func Info(ctx context.Context, value ...interface{}) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Info("info", zap.Any("", value), zap.Any("traceID", md[TraceStringKey]))
 }
 
 func Infof(ctx context.Context, format string, value ...interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Info("", zap.Any("info", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Info("info", zap.Any("info", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Debug(ctx context.Context, msg string, value interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Debug(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
+func Debug(ctx context.Context, value ...interface{}) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Debug("debug", zap.Any("debug", value), zap.Any("traceID", md[TraceStringKey]))
 }
 func Debugf(ctx context.Context, format string, value ...interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Info("", zap.Any("debug", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Info("debug", zap.Any("debug", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Warn(ctx context.Context, msg string, value interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Warn(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
+func Warn(ctx context.Context, value ...interface{}) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Warn("warn", zap.Any("warn", value), zap.Any("traceID", md[TraceStringKey]))
 }
 func Warnf(ctx context.Context, format string, value ...interface{}) {
-	md := GetInComeHeader(ctx)
+	md, _ := metadata.FromIncomingContext(ctx)
 	zap.L().Info("warn", zap.Any("warn", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Error(ctx context.Context, msg string, value interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Error(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
+func Error(ctx context.Context, value ...interface{}) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Error("error ", zap.Any("err ", value), zap.Any("traceID", md[TraceStringKey]))
 }
 func Errorf(ctx context.Context, format string, value ...interface{}) {
-	md := GetInComeHeader(ctx)
+	md, _ := metadata.FromIncomingContext(ctx)
 	zap.L().Info("error", zap.Any("error", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }
-func Fatal(ctx context.Context, msg string, value interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Fatal(msg, zap.Any(msg, value), zap.Any("traceID", md[TraceStringKey]))
+func Fatal(ctx context.Context, value ...interface{}) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Fatal("fatal", zap.Any("fatal", value), zap.Any("traceID", md[TraceStringKey]))
 }
 func Fatalf(ctx context.Context, format string, value ...interface{}) {
-	md := GetInComeHeader(ctx)
-	zap.L().Info("warn", zap.Any("fatal", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
+	md, _ := metadata.FromIncomingContext(ctx)
+	zap.L().Info("fatal", zap.Any("fatal", fmt.Sprintf(format, value...)), zap.Any("traceID", md[TraceStringKey]))
 }

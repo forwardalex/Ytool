@@ -131,8 +131,8 @@ func (in *InvokeHandler) InvokeRPC(ctx context.Context, source DescriptorSource,
 		return nil, fmt.Errorf("error resolving server extensions for message %s: %v", mtd.GetOutputType().
 			GetFullyQualifiedName(), err)
 	}
-
-	ctx = metadata.NewOutgoingContext(ctx, md)
+	fmt.Println("===md", md)
+	ctx = metadata.AppendToOutgoingContext(ctx)
 	msgFactory := dynamic.NewMessageFactoryWithExtensionRegistry(&ext)
 	req := msgFactory.NewMessage(mtd.GetInputType())
 	stub := grpcdynamic.NewStubWithMessageFactory(ch, msgFactory)
