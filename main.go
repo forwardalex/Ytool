@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
+	"runtime"
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 )
 
 func main() {
+	fmt.Println(runtime.Version())
 	tool.Init()
 	fmt.Println("welcome")
 	//test.TestBlame()

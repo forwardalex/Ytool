@@ -1,7 +1,4 @@
 # 父镜像
-
-
-
 FROM ubuntu
 ARG SERVER_NAME
 # 安装服务
