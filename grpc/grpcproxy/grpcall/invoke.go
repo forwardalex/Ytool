@@ -94,7 +94,6 @@ func (in *InvokeHandler) InvokeRPC(ctx context.Context, source DescriptorSource,
 	mth string,
 	headers []string, requestData RequestSupplier) (*ResultModel, error) {
 
-	md := MetadataFromHeaders(headers)
 	if svc == "" || mth == "" {
 		return nil, fmt.Errorf("given method name %s/%s is not in expected format: 'service/method' or 'service.method'", svc,
 			mth)
@@ -131,7 +130,6 @@ func (in *InvokeHandler) InvokeRPC(ctx context.Context, source DescriptorSource,
 		return nil, fmt.Errorf("error resolving server extensions for message %s: %v", mtd.GetOutputType().
 			GetFullyQualifiedName(), err)
 	}
-	fmt.Println("===md", md)
 	ctx = metadata.AppendToOutgoingContext(ctx)
 	msgFactory := dynamic.NewMessageFactoryWithExtensionRegistry(&ext)
 	req := msgFactory.NewMessage(mtd.GetInputType())
