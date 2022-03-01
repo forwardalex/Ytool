@@ -14,7 +14,7 @@ var assemblyMap = make(map[enum.Enum]assemblyInit.Assembly)
 func RegisterAssembly() {
 	addAssembly(&assemblyInit.MySqlInit{})
 	addAssembly(&assemblyInit.MailInit{})
-
+	addAssembly(&assemblyInit.RedisInit{})
 }
 
 func addAssembly(impl assemblyInit.Assembly) {

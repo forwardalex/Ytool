@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/forwardalex/Ytool/enum"
 	"github.com/forwardalex/Ytool/layzeInit"
+	"github.com/go-redis/redis/v8"
 )
 
 var conn *sql.DB
@@ -19,4 +20,22 @@ func GetConn() *sql.DB {
 	}
 
 	return assembly.(*sql.DB)
+}
+
+var (
+	// RedisClient TODO
+	RedisClient *redis.Client
+)
+
+func GetRedisConn() *redis.Client {
+	if RedisClient != nil {
+		return RedisClient
+	}
+	assembly := layzeInit.GetAssembly(enum.GetAssemblyEnum().Redis)
+
+	if assembly == nil {
+		return nil
+	}
+
+	return assembly.(*redis.Client)
 }

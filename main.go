@@ -7,6 +7,7 @@ import (
 	"github.com/forwardalex/Ytool/grpc/grpcproxy/testuse"
 	"github.com/forwardalex/Ytool/log"
 	pb "github.com/forwardalex/Ytool/proto"
+	"github.com/forwardalex/Ytool/store/db"
 	"github.com/forwardalex/Ytool/tool"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -38,7 +39,12 @@ func main() {
 	pb.RegisterHelloServiceServer(s, &testuse.HelloService{})
 	fmt.Println("server registered: 0.0.0.0", port)
 	reflection.Register(s)
-
+	err = db.GetRedisConn().Ping(context.Background()).Err()
+	if err != nil {
+		fmt.Println("====", err)
+		return
+	}
+	fmt.Println("redis ok")
 	go func() {
 		if err := s.Serve(lis); err != nil {
 			log.Fatal(context.TODO(), err)
