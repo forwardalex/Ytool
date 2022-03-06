@@ -63,7 +63,7 @@ func StartWithInterceptor(port int, prefix string, target string, interceptor Pr
 		}
 
 		w.Header().Set("content-type", "text/json")
-
+		w.Header().Set("Access-Control-Allow-Origin", "*")                    //允许跨域
 		if r.Header.Get("tencent-leakscan") == "TST(Tencent Security Team)" { // 过滤扫描
 			respByte, _ := json.Marshal(resp)
 			w.Write(respByte)
