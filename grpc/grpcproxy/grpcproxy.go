@@ -61,10 +61,10 @@ func StartWithInterceptor(port int, prefix string, target string, interceptor Pr
 			Message: "success",
 			Payload: NullStruct{},
 		}
-		w.Header().Set("Access-Control-Allow-Origin", "*")                    //允许访问所有域
-		w.Header().Add("Access-Control-Allow-Headers", "Content-Type")        //header的类型
-		w.Header().Set("content-type", "application/json")                    //返回数据格式是json
-		if r.Header.Get("tencent-leakscan") == "TST(Tencent Security Team)" { // 过滤扫描
+		w.Header().Set("Access-Control-Allow-Origin", "*")                                                                                                                                                                                                                                                                              //允许访问所有域
+		w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Length, X-CSRF-Token, Token,session,X_Requested_With,Accept, Origin, Host, Connection, Accept-Encoding, Accept-Language,DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Pragma,platform") //header的类型
+		w.Header().Set("content-type", "application/json")                                                                                                                                                                                                                                                                              //返回数据格式是json
+		if r.Header.Get("tencent-leakscan") == "TST(Tencent Security Team)" {                                                                                                                                                                                                                                                           // 过滤扫描
 			respByte, _ := json.Marshal(resp)
 			w.Write(respByte)
 			return
