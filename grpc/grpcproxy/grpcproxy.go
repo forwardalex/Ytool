@@ -65,12 +65,6 @@ func StartWithInterceptor(l net.Listener, prefix string, target string, intercep
 		w.Header().Set("Access-Control-Allow-Origin", "*")                                                                                                                                                                                                                                                                              //允许访问所有域
 		w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Length, X-CSRF-Token, Token,session,X_Requested_With,Accept, Origin, Host, Connection, Accept-Encoding, Accept-Language,DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Pragma,platform") //header的类型
 		w.Header().Set("content-type", "application/json")                                                                                                                                                                                                                                                                              //返回数据格式是json
-		if r.Header.Get("tencent-leakscan") == "TST(Tencent Security Team)" {                                                                                                                                                                                                                                                           // 过滤扫描
-			respByte, _ := json.Marshal(resp)
-			w.Write(respByte)
-			return
-		}
-
 		// 解析请求路径
 		greq, isKeepAlive, err := parseUrlToGrpc(prefix, r)
 		if err != nil {
@@ -123,10 +117,10 @@ func StartWithInterceptor(l net.Listener, prefix string, target string, intercep
 	}
 	err = httpS.Serve(l)
 	//err = http.ListenAndServe(":"+fmt.Sprint(port), nil)
-	if err != nil {
-		fmt.Println("http proxy start failed")
-		return err
-	}
+	//if err != nil {
+	//	fmt.Println("http proxy start failed")
+	//	return err
+	//}
 	return nil
 }
 
