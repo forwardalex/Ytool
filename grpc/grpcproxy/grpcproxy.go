@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"io/ioutil"
+	"net"
 	"strings"
 	"time"
 
@@ -32,12 +33,12 @@ var (
 )
 
 // Start 服务启动
-func Start(port int, prefix string, target string) error {
-	return StartWithInterceptor(port, prefix, target, nil)
+func Start(l net.Listener, prefix string, target string) error {
+	return StartWithInterceptor(l, prefix, target, nil)
 }
 
 // StartWithInterceptor 有中间件功能的代理服务启动
-func StartWithInterceptor(port int, prefix string, target string, interceptor ProxyInterceptor) error {
+func StartWithInterceptor(l net.Listener, prefix string, target string, interceptor ProxyInterceptor) error {
 
 	var err error
 	// 初始化grpc客户端（利用反射）
@@ -117,8 +118,11 @@ func StartWithInterceptor(port int, prefix string, target string, interceptor Pr
 		w.Write(respByte)
 	})
 
-	fmt.Println("http proxy start:", port)
-	err = http.ListenAndServe(":"+fmt.Sprint(port), nil)
+	httpS := &http.Server{
+		Handler: nil,
+	}
+	httpS.Serve(l)
+	//err = http.ListenAndServe(":"+fmt.Sprint(port), nil)
 	if err != nil {
 		fmt.Println("http proxy start failed")
 		return err
