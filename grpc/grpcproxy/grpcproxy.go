@@ -121,7 +121,7 @@ func StartWithInterceptor(l net.Listener, prefix string, target string, intercep
 	httpS := &http.Server{
 		Handler: nil,
 	}
-	httpS.Serve(l)
+	err = httpS.Serve(l)
 	//err = http.ListenAndServe(":"+fmt.Sprint(port), nil)
 	if err != nil {
 		fmt.Println("http proxy start failed")
