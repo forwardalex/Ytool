@@ -102,6 +102,9 @@ func StartWithInterceptor(l net.Listener, prefix string, target string, intercep
 		//log.Info(ctx," test trace ")
 		if interceptor != nil {
 			resp = interceptor(ctx, traceId, r, greq, string(body), BaseHandler)
+			if resp.RetCode == 402 {
+				w.WriteHeader(402)
+			}
 		} else {
 			traceidStr := fmt.Sprintf("traceid:%s", traceId)
 			resp = BaseHandler(ctx, traceId, greq, string(body), []string{traceidStr})
