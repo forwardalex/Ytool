@@ -16,8 +16,9 @@ import (
 )
 
 var (
-	port     = ":50051"
-	httpPort = 80
+	port       = ":50051"
+	httpPort   = 80
+	httpPorStr = ":80"
 )
 
 func main() {
@@ -51,5 +52,9 @@ func main() {
 		}
 		log.Info(context.TODO(), err, "info ")
 	}()
-	grpchttpproxy.StartWithInterceptor(httpPort, "api/access/pb/cmd", "localhost"+port, nil)
+	l, err := net.Listen("tcp", httpPorStr)
+	if err != nil {
+		log.Fatal(context.TODO(), err)
+	}
+	grpchttpproxy.StartWithInterceptor(l, "api/access/pb/cmd", "localhost"+port, nil)
 }

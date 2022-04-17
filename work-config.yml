@@ -1,6 +1,6 @@
 # debug下配置只有在env:"ENV_NAME=dev"才会生效，即本地开发环境
 debug:
-  env: test
+  env: dev
   needDebug: true
   mail: #发送服务信息使用邮箱
     user: 1017235442@qq.com
@@ -14,9 +14,9 @@ debug:
     port: 3306 #3306
     database: dev
   redis: #redis 开发环境连接重定向地址
-    host: 127.0.0.1
-    port: 6379
-    password:
+    host: 1.117.176.109
+    port: 63791
+    password: yxz550507808
     type: node
   kafka: #kafka 开发环境连接重定向地址
     host: 127.0.0.1:9092
