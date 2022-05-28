@@ -16,6 +16,8 @@ import (
 	"strings"
 )
 
+var RedisbConf model.RedisConf
+
 type RedisInit struct {
 	obj model.AssemblyObj
 }
@@ -39,11 +41,10 @@ func (impl *RedisInit) GetAssemblyObj() *model.AssemblyObj {
 //InitDB 初始化数据库
 func initRedis() (*redis.Client, error) {
 	var (
-		redisbConf model.RedisConf
-		err        error
+		err error
 	)
 	ctx := context.Background()
-	err = getRedisConfig(&redisbConf)
+	err = getRedisConfig(&RedisbConf)
 
 	file, _ := exec.LookPath(os.Args[0])
 	path, _ := filepath.Abs(file)
@@ -51,10 +52,10 @@ func initRedis() (*redis.Client, error) {
 	fmt.Println(path[:index])
 
 	// 如果是开发环境，手动指定数据库地址
-	debug.ConfigDebugRedis(&redisbConf)
+	debug.ConfigDebugRedis(&RedisbConf)
 	RedisClient := redis.NewClient(&redis.Options{
-		Addr:     redisbConf.Host + ":" + strconv.Itoa(redisbConf.Port),
-		Password: redisbConf.Password,
+		Addr:     RedisbConf.Host + ":" + strconv.Itoa(RedisbConf.Port),
+		Password: RedisbConf.Password,
 	})
 	if _, err = RedisClient.Ping(ctx).Result(); err != nil {
 		log.Error(ctx, "redis connect error:", err.Error())
@@ -66,4 +67,8 @@ func initRedis() (*redis.Client, error) {
 
 func getRedisConfig(conf *model.RedisConf) error {
 	return nil
+}
+
+func GetRedisConfig() model.RedisConf {
+	return RedisbConf
 }

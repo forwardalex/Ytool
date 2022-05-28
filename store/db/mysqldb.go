@@ -2,8 +2,10 @@ package db
 
 import (
 	"database/sql"
+	"github.com/forwardalex/Ytool/assemblyInit"
 	"github.com/forwardalex/Ytool/enum"
 	"github.com/forwardalex/Ytool/layzeInit"
+	"github.com/forwardalex/Ytool/model"
 	"github.com/go-redis/redis/v8"
 )
 
@@ -38,4 +40,11 @@ func GetRedisConn() *redis.Client {
 	}
 
 	return assembly.(*redis.Client)
+}
+
+func GetDBConfig() string {
+	return assemblyInit.Dsn
+}
+func GetRedisConfig() model.RedisConf {
+	return assemblyInit.GetRedisConfig()
 }

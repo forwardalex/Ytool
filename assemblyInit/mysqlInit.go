@@ -15,6 +15,8 @@ import (
 	"strings"
 )
 
+var Dsn string
+
 type MySqlInit struct {
 	obj model.AssemblyObj
 }
@@ -40,7 +42,6 @@ func initDB() (*sql.DB, error) {
 	var (
 		dbConf model.DbConf
 		err    error
-		dsn    string
 	)
 
 	err = getDBConfig(&dbConf)
@@ -57,11 +58,11 @@ func initDB() (*sql.DB, error) {
 		log.Error(context.Background(), "err ", err)
 		return nil, err
 	}
-	dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	Dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		dbConf.User, dbConf.Password, dbConf.Host,
 		dbConf.Port, dbConf.Database)
-	log.Info(context.Background(), "db=", dsn)
-	conn, err := sql.Open("mysql", dsn)
+	log.Info(context.Background(), "db=", Dsn)
+	conn, err := sql.Open("mysql", Dsn)
 	if err != nil {
 		log.Error(context.Background(), "open mysql err:", err.Error())
 		return nil, err
